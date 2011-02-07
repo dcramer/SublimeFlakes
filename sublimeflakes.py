@@ -61,7 +61,7 @@ def check(codeString, filename):
         # Okay, it's syntactically valid.  Now parse it into an ast and check
         # it.
         ucodeString = unicode(codeString).encode('utf-8')
-        tree = compiler.parse(codeString)
+        tree = compiler.parse(ucodeString)
         w = checker.Checker(tree, filename)
         w.messages.sort(lambda a, b: cmp(a.lineno, b.lineno))
         return w.messages
@@ -163,14 +163,14 @@ def validate(view):
             underlineRange(error.lineno, error.offset)
             if len(errors) == 1 and False:
                 outlines = [view.full_line(view.text_point(error.lineno, 0)) for lineno in lines]
-                view.add_regions('pyflakes-syntax', outlines, 'keyword', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
-                view.add_regions('pyflakes-syntax-underline', underline, 'keyword', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
+                view.add_regions('pyflakes-syntax', outlines, 'Invalid', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
+                view.add_regions('pyflakes-syntax-underline', underline, 'Invalid', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
                 return
 
         elif isinstance(error, PythonError):
             if len(errors) == 1 and False:
                 outlines = [view.full_line(view.text_point(error.lineno, 0)) for lineno in lines]
-                view.add_regions('pyflakes-syntax', outlines, 'keyword', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
+                view.add_regions('pyflakes-syntax', outlines, 'Invalid', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
                 return
 
         elif isinstance(error, messages.UnusedImport):
@@ -213,8 +213,8 @@ def validate(view):
     if underline or lines:
         outlines = [view.full_line(view.text_point(lineno, 0)) for lineno in lines]
 
-        view.add_regions('pyflakes-underline', underline, 'keyword', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
-        view.add_regions('pyflakes-outlines', outlines, 'keyword', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
+        view.add_regions('pyflakes-underline', underline, 'Invalid', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
+        view.add_regions('pyflakes-outlines', outlines, 'Invalid', drawType)#sublime.DRAW_EMPTY_AS_OVERWRITE | sublime.DRAW_OUTLINED)
 
     lineMessages[vid] = errorMessages
 
